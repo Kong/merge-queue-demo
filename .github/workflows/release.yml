@@ -25,6 +25,8 @@ jobs:
         sleep $n
 
     - name: Randomly Fail
+      env:
+        VERBOSE: ${{ runner.debug }}
       run: |
         n="$(shuf -i 0-1 -n 1)"
 
@@ -34,4 +36,9 @@ jobs:
           echo "trouble is afoot!"
         fi
 
-        exit $n
+        if [ -n "$VERBOSE" ]; then
+          echo "succeeding because debug was enabled"
+          exit 0
+        else
+          exit $n
+        fi
