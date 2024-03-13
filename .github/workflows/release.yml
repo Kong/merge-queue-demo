@@ -16,12 +16,22 @@ jobs:
     name: Job
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-
     - name: Step One
       run: |
-        sleep "$(shuf -i 3-10 -n 1)"
+        n="$(shuf -i 3-10 -n 1)"
+
+        echo "sleeping for ${n} seconds"
+
+        sleep $n
 
     - name: Randomly Fail
       run: |
-        exit "$(shuf -i 0-1 -n 1)"
+        n="$(shuf -i 0-1 -n 1)"
+
+        if [ $n -eq 0 ]; then
+          echo "ding dong, all is well"
+        else
+          echo "trouble is afoot!"
+        fi
+
+        exit $n
